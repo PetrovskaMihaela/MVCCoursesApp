@@ -60,6 +60,8 @@ namespace UniCoursesApp.Controllers
             }
 
             var teacher = await _context.Teacher
+                .Include(t => t.Courses)
+                .Include(t => t.CoursesSecond)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {

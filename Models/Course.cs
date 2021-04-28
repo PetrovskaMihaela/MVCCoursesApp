@@ -33,10 +33,12 @@ namespace UniCoursesApp.Models
 
         [Display(Name = "Професор")]
         public int? FirstTeacherId { get; set; }
+        [Display(Name = "Професор")]
         public Teacher FirstTeacher { get; set; }
 
         [Display(Name = "Втор професор")]
         public int? SecondTeacherId { get; set; }
+        [Display(Name = "Втор професор")]
         public Teacher SecondTeacher { get; set; }
 
         [Display(Name = "Запишани студенти")]

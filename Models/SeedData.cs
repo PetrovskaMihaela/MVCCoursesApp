@@ -23,13 +23,15 @@ namespace UniCoursesApp.Models
                 }
                 context.Teacher.AddRange(
                     new Teacher { /*Id = 1,*/ FirstName = "Перо", LastName = "Латкоски", Degree = "Доктор на науки", AcademicRank = "Редовен професор", HireDate = DateTime.Parse("2000-3-6"), OfficeNumber = "ТК" },
-                    new Teacher { /*Id = 2,*/ FirstName = "Даниел", LastName = "Денковски", Degree = "Доктор на науки", AcademicRank = "Доцент", HireDate = DateTime.Parse("2000-3-6"), OfficeNumber = "121" }
+                    new Teacher { /*Id = 2,*/ FirstName = "Даниел", LastName = "Денковски", Degree = "Доктор на науки", AcademicRank = "Доцент", HireDate = DateTime.Parse("2000-3-6"), OfficeNumber = "121" },
+                    new Teacher { /*Id = 2,*/ FirstName = "Владимир", LastName = "Атанасовски", Degree = "Доктор на науки", AcademicRank = "Редовен професор", HireDate = DateTime.Parse("2000-3-6"), OfficeNumber = "Деканат" }
                 );
                 context.SaveChanges();
 
                 context.Course.AddRange(
-                    new Course { Title = "Развој на серверски ВЕБ апликации", Credits = 6, EducationLevel = "Додипломски", Programme = "ТКИИ, КТИ", Semester = 6, FirstTeacherId = context.Teacher.Single(t => t.FirstName == "Даниел" && t.LastName == "Денковски").Id, SecondTeacherId = context.Teacher.Single(t => t.FirstName == "Перо" && t.LastName == "Латкоски").Id },
-                    new Course { Title = "Мобилни сервиси со АП", Credits = 6, EducationLevel = "Додипломски", Programme = "ТКИИ", Semester = 6, FirstTeacherId = context.Teacher.Single(t => t.FirstName == "Даниел" && t.LastName == "Денковски").Id, SecondTeacherId = context.Teacher.Single(t => t.FirstName == "Перо" && t.LastName == "Латкоски").Id }
+                    new Course { Title = "Развој на серверски ВЕБ апликации", Credits = 6, EducationLevel = "Додипломски", Programme = "КТИ", Semester = 6, FirstTeacherId = context.Teacher.Single(t => t.FirstName == "Даниел" && t.LastName == "Денковски").Id, SecondTeacherId = context.Teacher.Single(t => t.FirstName == "Перо" && t.LastName == "Латкоски").Id },
+                    new Course { Title = "Мобилни сервиси со АП", Credits = 6, EducationLevel = "Додипломски", Programme = "ТКИИ", Semester = 6, FirstTeacherId = context.Teacher.Single(t => t.FirstName == "Даниел" && t.LastName == "Денковски").Id, SecondTeacherId = context.Teacher.Single(t => t.FirstName == "Перо" && t.LastName == "Латкоски").Id },
+                    new Course { Title = "Андроид Програмирање", Credits = 6, EducationLevel = "Додипломски", Programme = "ТКИИ", Semester = 5, FirstTeacherId = context.Teacher.Single(t => t.FirstName == "Даниел" && t.LastName == "Денковски").Id, SecondTeacherId = context.Teacher.Single(t => t.FirstName == "Владимир" && t.LastName == "Атанасовски").Id }
                     );
                 context.SaveChanges();
 
@@ -44,7 +46,10 @@ namespace UniCoursesApp.Models
                     new Enrollment { StudentId = 1, CourseId = 2 },
                     new Enrollment { StudentId = 2, CourseId = 2 },
                     new Enrollment { StudentId = 3, CourseId = 1 },
-                    new Enrollment { StudentId = 1, CourseId = 1 }
+                    new Enrollment { StudentId = 1, CourseId = 1 },
+                    new Enrollment { StudentId = 3, CourseId = 3 },
+                    new Enrollment { StudentId = 1, CourseId = 3 },
+                    new Enrollment { StudentId = 2, CourseId = 3 }
                     );
                 context.SaveChanges();
 

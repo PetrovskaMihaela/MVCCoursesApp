@@ -10,7 +10,7 @@ using UniCoursesApp.Models;
 namespace UniCoursesApp.Migrations
 {
     [DbContext(typeof(UniCoursesAppContext))]
-    [Migration("20210427130132_Initial")]
+    [Migration("20210428161628_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -127,6 +127,7 @@ namespace UniCoursesApp.Controllers
                 SelectedStudents =course.Students.Select(e => e.StudentId)
             };
             //CoursesVm = await courses.ToListAsync()
+            await _context.SaveChangesAsync();
 
             ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.FirstTeacherId);
             ViewData["SecondTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName", course.SecondTeacherId);
