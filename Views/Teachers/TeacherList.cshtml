@@ -1,0 +1,63 @@
+﻿@model IEnumerable<UniCoursesApp.Models.Teacher>
+
+@{ ViewData["Title"] = "TeacherList"; }
+
+<h1>Листа на профероси</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfilePicture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Degree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AcademicRank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfficeNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HireDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            var photoPath = "~/images/" + (item.ProfilePicture ?? "blankImage.png");
+<tr>
+    <td>
+        <img src="@photoPath"
+             class="rounded-circle"
+             height="40" width="40"
+             asp-append-version="true" />
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FullName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Degree)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AcademicRank)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OfficeNumber)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HireDate)
+    </td>
+    <td>
+        <a asp-action="TeacherViewDetails" asp-route-id="@item.Id">Одбери</a>
+    </td>
+</tr>}
+    </tbody>
+</table>

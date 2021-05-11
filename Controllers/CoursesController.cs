@@ -66,7 +66,8 @@ namespace UniCoursesApp.Controllers
             var course = await _context.Course
                 .Include(c => c.FirstTeacher)
                 .Include(c => c.SecondTeacher)
-                .Include(c => c.Students).ThenInclude(c => c.Student)
+                .Include(c => c.Students)
+                .ThenInclude(c => c.Student)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -212,6 +213,36 @@ namespace UniCoursesApp.Controllers
             _context.Course.Remove(course);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> TeacherViewCourse(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var course = await _context.Course
+                .Include(c => c.FirstTeacher)
+                .Include(c => c.SecondTeacher)
+                .Include(c => c.Students)
+                .ThenInclude(e => e.Student)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            return View(course);
+        }
+
+        public async Task<IActionResult> CourseList()
+        {
+            var universityContext = _context.Course.Include(c => c.FirstTeacher).Include(c => c.SecondTeacher)
+                .Include(c => c.Students).ThenInclude(e => e.Student);
+            return View(await universityContext.ToListAsync());
         }
 
         private bool CourseExists(int id)

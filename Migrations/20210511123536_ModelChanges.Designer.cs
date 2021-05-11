@@ -10,8 +10,8 @@ using UniCoursesApp.Models;
 namespace UniCoursesApp.Migrations
 {
     [DbContext(typeof(UniCoursesAppContext))]
-    [Migration("20210428161628_Initial")]
-    partial class Initial
+    [Migration("20210511123536_ModelChanges")]
+    partial class ModelChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,6 +147,9 @@ namespace UniCoursesApp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -188,6 +191,9 @@ namespace UniCoursesApp.Migrations
                     b.Property<string>("OfficeNumber")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

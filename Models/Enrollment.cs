@@ -11,11 +11,15 @@ namespace UniCoursesApp.Models
         public int Id { get; set; }
         [Required]
         public int CourseId { get; set; }
+
+        [Display(Name = "Предмет")]
         public Course Course { get; set; }
 
 
         [Required]
         public int StudentId { get; set; }
+
+        [Display(Name = "Студент")]
         public Student Student { get; set; }
 
 
@@ -29,18 +33,20 @@ namespace UniCoursesApp.Models
         [Display(Name = "Оценка")]
         public int? Grade { get; set; }
 
-        [Display(Name = "Погледни колоквиум")]
+        [Url]
+        [Display(Name = "Семинарска")]
         [StringLength(255)]
         public string SeminalUrl { get; set; }
 
-        [Display(Name = "Погледни проект")]
+        [Url]
+        [Display(Name = "Проект")]
         [StringLength(255)]
         public string ProjectUrl { get; set; }
 
         [Display(Name = "Поени од испит")]
         public int? ExamPoints { get; set; }
 
-        [Display(Name = "Поени од колоквиум")]
+        [Display(Name = "Поени од семинарска")]
         public int? SeminalPoints { get; set; }
 
         [Display(Name = "Поени од проект")]
@@ -50,7 +56,7 @@ namespace UniCoursesApp.Models
         public int? AdditionalPoints { get; set; }
 
         [DataType(DataType.Date)]
-        [Display(Name = "Крај")]
+        [Display(Name = "Датум завршување")]
         public DateTime? FinishDate { get; set; }
     }
 }

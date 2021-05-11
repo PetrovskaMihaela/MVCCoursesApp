@@ -36,9 +36,10 @@ namespace UniCoursesApp.Models
                 context.SaveChanges();
 
                 context.Student.AddRange(
-                    new Student { FirstName = "Михаела", LastName = "Петровска", AcquiredCredits = 150, CurrentSemester = 6, EducationLevel = "додипломски", StudentId = "1/1234", EnrollmentDate = DateTime.Parse("2000-3-6") },
-                    new Student { FirstName = "Мартина", LastName = "Јовановиќ", AcquiredCredits = 150, CurrentSemester = 6, EducationLevel = "додипломски", StudentId = "2/1234", EnrollmentDate = DateTime.Parse("2000-3-6") },
-                    new Student { FirstName = "Надежда", LastName = "Илиева", AcquiredCredits = 150, CurrentSemester = 6, EducationLevel = "додипломски", StudentId = "3/1234", EnrollmentDate = DateTime.Parse("2000-3-6") }
+                    new Student { FirstName = "Михаела", LastName = "Петровска", AcquiredCredits = 150, CurrentSemester = 6, EducationLevel = "додипломски", StudentId = "1/2018", EnrollmentDate = DateTime.Parse("2000-3-6") },
+                    new Student { FirstName = "Мартина", LastName = "Јовановиќ", AcquiredCredits = 150, CurrentSemester = 6, EducationLevel = "додипломски", StudentId = "2/2018", EnrollmentDate = DateTime.Parse("2000-3-6") },
+                    new Student { FirstName = "Надежда", LastName = "Илиева", AcquiredCredits = 150, CurrentSemester = 6, EducationLevel = "додипломски", StudentId = "3/2018", EnrollmentDate = DateTime.Parse("2000-3-6") }
+
                     );
                 context.SaveChanges();
 

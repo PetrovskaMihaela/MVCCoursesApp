@@ -1,0 +1,69 @@
+﻿@model IEnumerable<UniCoursesApp.Models.Student>
+
+@{ ViewData["Title"] = "Student List"; }
+
+<h1>Student List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfilePicture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AcquiredCredits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentSemester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EducationLevel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            var photoPath = "~/studentImages/" + (item.ProfilePicture ?? "blankImage.png");
+<tr>
+    <td>
+        <img src="@photoPath"
+             class="rounded-circle"
+             height="40" width="40"
+             asp-append-version="true" />
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.StudentId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FullName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EnrollmentDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.AcquiredCredits)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CurrentSemester)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EducationLevel)
+    </td>
+    <td>
+        <a asp-action="StudentViewDetails" asp-route-id="@item.Id">Одбери</a>
+    </td>
+</tr>}
+    </tbody>
+</table>

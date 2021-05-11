@@ -19,7 +19,8 @@ namespace UniCoursesApp.Migrations
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AcquiredCredits = table.Column<int>(type: "int", nullable: true),
                     CurrentSemester = table.Column<int>(type: "int", nullable: true),
-                    EducationLevel = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true)
+                    EducationLevel = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,7 +38,8 @@ namespace UniCoursesApp.Migrations
                     Degree = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     AcademicRank = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     OfficeNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

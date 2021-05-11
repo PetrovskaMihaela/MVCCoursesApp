@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +16,12 @@ namespace UniCoursesApp.Controllers
     public class StudentsController : Controller
     {
         private readonly UniCoursesAppContext _context;
+        private readonly IHostingEnvironment webHostingEnvironment;
 
-        public StudentsController(UniCoursesAppContext context)
+        public StudentsController(UniCoursesAppContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            webHostingEnvironment = hostingEnvironment;
         }
 
         // GET: Students
@@ -54,6 +59,8 @@ namespace UniCoursesApp.Controllers
             }
 
             var student = await _context.Student
+                .Include(s => s.Courses)
+                .ThenInclude(e => e.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (student == null)
             {
@@ -69,20 +76,64 @@ namespace UniCoursesApp.Controllers
             return View();
         }
 
-        // POST: Students/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /* // POST: Students/Create
+         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+         [HttpPost]
+         [ValidateAntiForgeryToken]
+         public async Task<IActionResult> Create([Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemester,EducationLevel")] Student student)
+         {
+             if (ModelState.IsValid)
+             {
+                 _context.Add(student);
+                 await _context.SaveChangesAsync();
+                 return RedirectToAction(nameof(Index));
+             }
+             return View(student);
+         }*/
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemester,EducationLevel")] Student student)
+        public async Task<IActionResult> Create(StudentCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(model);
+
+                Student student = new Student
+                {
+                    Id = model.Id,
+                    StudentId = model.StudentId,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    EnrollmentDate = model.EnrollmentDate,
+                    AcquiredCredits = model.AcquiredCredits,
+                    CurrentSemester = model.CurrentSemester,
+                    EducationLevel = model.EducationLevel,
+                    ProfilePicture = uniqueFileName
+                };
+
                 _context.Add(student);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { Id = student.Id });
             }
-            return View(student);
+            return View();
+        }
+
+        private string UploadedFile(StudentCreateViewModel model)
+        {
+            string uniqueFileName = null;
+
+            if (model.ProfilePicture != null)
+            {
+                string uploadsFolder = Path.Combine(webHostingEnvironment.WebRootPath, "studentImages");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(model.ProfilePicture.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.ProfilePicture.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Students/Edit/5
@@ -106,12 +157,16 @@ namespace UniCoursesApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemester,EducationLevel")] Student student)
+        public async Task<IActionResult> Edit(int id, IFormFile imageUrl, [Bind("Id,StudentId,FirstName,LastName,EnrollmentDate,AcquiredCredits,CurrentSemester,EducationLevel")] Student student)
         {
             if (id != student.Id)
             {
                 return NotFound();
             }
+
+            StudentsController uploadImage = new StudentsController(_context, webHostingEnvironment);
+            student.ProfilePicture = uploadImage.UploadedFile(imageUrl);
+
 
             if (ModelState.IsValid)
             {
@@ -134,6 +189,22 @@ namespace UniCoursesApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
+        }
+
+        public string UploadedFile(IFormFile file)
+        {
+            string uniqueFileName = null;
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(webHostingEnvironment.WebRootPath, "studentImages");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Students/Delete/5
@@ -164,6 +235,36 @@ namespace UniCoursesApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        // GET: Students/StudentList
+        public async Task<IActionResult> StudentList()
+        {
+            var universityContext = _context.Student.Include(s => s.Courses).ThenInclude(e => e.Course);
+            return View(await universityContext.ToListAsync());
+        }
+
+        // GET: Students/StudentViewDetails/5
+        public async Task<IActionResult> StudentViewDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var student = await _context.Student
+            .Include(s => s.Courses)
+            .ThenInclude(e => e.Course)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
+
 
         private bool StudentExists(int id)
         {

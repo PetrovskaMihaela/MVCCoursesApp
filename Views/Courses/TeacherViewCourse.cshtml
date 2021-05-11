@@ -1,0 +1,115 @@
+﻿@model UniCoursesApp.Models.Course
+
+@{ ViewData["Title"] = "Details"; }
+
+<h1> Предмет - @Html.DisplayFor(model => model.Title)</h1>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Credits)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Credits)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Semester)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Semester)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Programme)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Programme)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EducationLevel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EducationLevel)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstTeacher)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.FirstTeacherId != null)
+            {
+                @Html.DisplayFor(modelItem => Model.FirstTeacher.FullName)
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SecondTeacher)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.SecondTeacherId != null)
+            {
+                @Html.DisplayFor(modelItem => Model.SecondTeacher.FullName)
+            }
+        </dd>
+    </dl>
+    <hr />
+    <dl>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Students)
+        </dt>
+        <dd class="col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>Студент</th>
+                    <th>Оцена</th>
+                    <th>Поени испит</th>
+                    <th>Проект</th>
+                    <th>Семинарска</th>
+                    <th>Година</th>
+                    <th>Семестар</th>
+                    <th>Датум на завршување</th>
+                </tr>
+                @foreach (var item in Model.Students)
+                {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Student.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Grade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExamPoints)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProjectUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeminalUrl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Semester)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FinishDate)
+        </td>
+        @if (item.FinishDate == null)
+        {
+
+            <td>
+                <a asp-controller="Enrollments" asp-action="TeacherEdit" asp-route-id="@item.Id">Промени</a>
+            </td>
+        }
+    </tr>
+
+   }
+            </table>
+        </dd>
+    </dl>
+</div>
