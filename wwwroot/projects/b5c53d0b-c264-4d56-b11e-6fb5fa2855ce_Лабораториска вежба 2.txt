@@ -1,0 +1,155 @@
+Прва задача:
+
+import java.util.Scanner;
+import java.util.*;
+
+public class DLinkedListOfDLinkedList {
+	public static DLinkedList<Integer> 
+	formirajNova(DLinkedList<DLinkedList<Integer>> list) {
+		
+		
+		 DLinkedList<Integer> nova=new DLinkedList<Integer>();
+	        for(int i=0;i<list.size();i++){
+	            DLinkedList<Integer> temp=new DLinkedList<Integer>();
+	            temp=list.get(i);
+	            boolean flag=true;
+	            for(int j=0;j<temp.size();j++){
+	                if(temp.get(j)%2==1){
+	                    flag=false;
+	                    break;
+	                }
+	            }
+	            if(flag){
+	                for(int j=0;j<temp.size();j++){
+	                nova.add(temp.get(j));
+	                }
+	            }
+	        }
+	        return nova;
+	 }
+	 
+	public static void main(String[] args) { 
+		Scanner input = new Scanner(System.in);
+		int brPodlisti = input.nextInt();
+		int brElementi = input.nextInt(); 
+		DLinkedList< DLinkedList<Integer>> list = new DLinkedList<DLinkedList<Integer>>(); 
+		for (int i = 0; i < brPodlisti; i++) {
+			DLinkedList<Integer> tmp = new DLinkedList<Integer>(); 
+			for (int j = 0; j < brElementi; j++) {
+				tmp.insertLast(input.nextInt());
+			}
+			list.insertLast(tmp); 
+		} 
+		DLinkedList<Integer> nova = formirajNova(list);
+		
+		System.out.println("Printanje na novata lista od parni broevi:");
+        for(int i=0;i<nova.size();i++){
+            System.out.print(nova.get(i)+" ");
+        }
+       // System.out.println(nova.toString());
+   }
+	
+}
+
+
+
+Втора задача:
+
+import java.util.Scanner;
+
+public class BalansiraniZagradi  { 
+    static class stack  { 
+        int top=-1; 
+        char elementi[] = new char[100]; 
+  
+        void push(char x)  { 
+            if (top == 99)  
+            	System.out.println("Poln"); 
+            else 
+            	elementi[++top] = x; 
+        } 
+  
+        char pop(){ 
+            if (top == -1){ 
+                System.out.println("Prazen"); 
+                return '\0'; 
+            }  
+            else {
+            	char element = elementi[top]; 
+                top--; 
+                return element; 
+            } 
+        } 
+  
+        boolean isEmpty(){ 
+            return (top == -1) ? true : false; 
+        } 
+    } 
+      
+   
+    static boolean DaliSePar(char zagrada1, char zagrada2) 
+    { 
+       if (zagrada1 == '(' && zagrada2 == ')') 
+         return true; 
+       else if (zagrada1 == '{' && zagrada2 == '}') 
+         return true; 
+       else if (zagrada1 == '[' && zagrada2 == ']') 
+         return true; 
+       else
+         return false; 
+    } 
+   
+    static boolean DaliSeBalansirani(char exp[]) 
+    { 
+       stack pomosen=new stack(); //pomosen magacin
+       
+       for(int i=0;i<exp.length;i++) //ja izminuvame nizata 
+       {   
+          //ako elementot e pocetna zagrada go stavame vo magacinot
+          if (exp[i] == '{' || exp[i] == '(' || exp[i] == '[') 
+            pomosen.push(exp[i]); 
+       
+          //ako elementot e zatvorena, vadime od magacinot i proveruvame dali odgovaraat
+          if (exp[i] == '}' || exp[i] == ')' || exp[i] == ']') 
+          { 
+             if (pomosen.isEmpty()) 
+                   return false; 
+             else if ( !DaliSePar(pomosen.pop(), exp[i]) ) 
+               { 
+                   return false; 
+               } 
+          } 
+            
+       } 
+          
+        
+       if (pomosen.isEmpty()) //proverka da ne ostanala nekoja otvorena zagrada
+    	   return true; 
+       else
+    	   return false; 
+        
+    }  
+      
+    public static void main(String[] args)  
+    { 
+    	int BrZagradi;
+    	
+    	Scanner sc1=new Scanner(System.in);
+    	BrZagradi=sc1.nextInt();
+    	char[] exp = new char[BrZagradi];
+    	sc1.close();
+    	for(int i=0; i<BrZagradi-1;i++) {
+    		Scanner scanner = new Scanner(System.in);
+    		System.out.println("Vnesi zagrada");
+    		char ch = scanner.next().charAt(0);
+    		exp[i]=ch;
+    		scanner.close();
+    	}
+    	
+          if (DaliSeBalansirani(exp)) 
+            System.out.println("balansirani"); 
+          else
+            System.out.println("nebalansirani ");   
+    } 
+  
+}

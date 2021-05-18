@@ -49,6 +49,16 @@
                 <span asp-validation-for="EducationLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
+                @if (Model.ProfilePicture == null){
+                    <label class="control-label">Слика</label>
+                    <input type="file" name="imageUrl" /> 
+                }else{
+                    <label>Одбрана слика:</label>
+                    <img src="~/studentImages/@Model.ProfilePicture" height="100" width="100" asp-append-version="true" />
+                    <br /><input type="file" name="imageUrl" />
+                 }
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

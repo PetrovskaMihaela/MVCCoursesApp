@@ -441,7 +441,54 @@ namespace UniCoursesApp.Controllers
         }
 
 
+       /* public IActionResult EnrollStudents(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var course = _context.Course.Where(m => m.Id == id)
+               .Include(m => m.Students).First();
+            int nYear = System.DateTime.Now.Year;
+            int[] years = Enumerable.Range(nYear - 10, 11).Reverse().ToArray();
+            var EnrollStudentsVm = new EnrollStudentsViewModel
+            {
+                Course = course,
+                StudentList = new MultiSelectList(_context.Student, "Id", "FullName"),
+                YearList = new SelectList(years.ToList())
+            };
+            return View(EnrollStudentsVm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnrollStudents(int id, EnrollStudentsViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var student in viewModel.SelectedStudents)
+                {
+                    Enrollment enrollment = await _context.Enrollment
+                        .FirstOrDefaultAsync(m => m.Id == id && m.Id == student
+                        && m.Year == viewModel.SelectedYear && m.Semester == viewModel.SelectedSemester);
+                    if (enrollment == null)
+                    {
+                        enrollment = new Enrollment
+                        {
+                            CourseId = id,
+                            StudentId = student,
+                            Year = viewModel.SelectedYear,
+                            Semester = viewModel.SelectedSemester
+                        };
+                        _context.Add(enrollment);
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(CoursesController.Index));
+            }
+            return View(viewModel);
+        }*/
 
     }
 }
