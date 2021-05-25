@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace UniCoursesApp.Controllers
     public class CoursesController : Controller
     {
         private readonly UniCoursesAppContext _context;
+      //  private readonly IHostingEnvironment webHostingEnvironment;
 
         public CoursesController(UniCoursesAppContext context)
         {
             _context = context;
+            //webHostingEnvironment = hostingEnvironment;
         }
 
         // GET: Courses
