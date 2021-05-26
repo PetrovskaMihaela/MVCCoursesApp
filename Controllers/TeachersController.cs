@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Teachers
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string teacherDegree, string teacherRank, string searchString)
         {
             IQueryable<Teacher> teachers = _context.Teacher.AsQueryable();
@@ -56,6 +58,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Teachers/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,6 +79,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Teachers/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -96,7 +100,7 @@ namespace UniCoursesApp.Controllers
             }
             return View(teacher);
         }*/
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TeacherCreateViewModel model)
@@ -125,6 +129,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Teachers/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -143,6 +148,7 @@ namespace UniCoursesApp.Controllers
         // POST: Teachers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IFormFile imageUrl, [Bind("Id,FirstName,LastName,Degree,AcademicRank,OfficeNumber,HireDate,ProfilePicture")] Teacher teacher)
@@ -178,6 +184,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Teachers/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -196,6 +203,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // POST: Teachers/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -236,6 +244,7 @@ namespace UniCoursesApp.Controllers
         }
 
         //GET: Teachers/TeacherViewDetails/5
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> TeacherViewDetails(int? id)
         {
             if (id == null)

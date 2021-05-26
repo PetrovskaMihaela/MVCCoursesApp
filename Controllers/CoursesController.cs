@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,6 +24,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Courses
+        [Authorize(Roles = "Admin, Teacher")]
         public async Task<IActionResult> Index( int courseSem, string courseProg, string searchString)
         {
             IQueryable<Course> courses = _context.Course.AsQueryable();
@@ -59,6 +61,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Courses/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -81,6 +84,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Courses/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["FirstTeacherId"] = new SelectList(_context.Teacher, "Id", "FullName");
@@ -91,6 +95,7 @@ namespace UniCoursesApp.Controllers
         // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Credits,Semester,Programme,EducationLevel,FirstTeacherId,SecondTeacherId")] Course course)
@@ -107,6 +112,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -141,6 +147,7 @@ namespace UniCoursesApp.Controllers
         // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, EnrollmentViewModel viewmodel)
@@ -187,6 +194,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -208,6 +216,7 @@ namespace UniCoursesApp.Controllers
         }
 
         // POST: Courses/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -218,6 +227,7 @@ namespace UniCoursesApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> TeacherViewCourse(int? id)
         {
             if (id == null)

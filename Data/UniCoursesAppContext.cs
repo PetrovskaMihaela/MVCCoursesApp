@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using UniCoursesApp.Areas.Identity.Data;
 using UniCoursesApp.Models;
 
 namespace UniCoursesApp.Models
 {
-    public class UniCoursesAppContext : DbContext
+    public class UniCoursesAppContext : IdentityDbContext<UniCoursesAppUser>
     {
         public UniCoursesAppContext (DbContextOptions<UniCoursesAppContext> options)
             : base(options)
@@ -24,6 +26,7 @@ namespace UniCoursesApp.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+           
             builder.Entity<Enrollment>()
                 .HasOne<Course>(p => p.Course)
                 .WithMany(p => p.Students)
@@ -43,7 +46,7 @@ namespace UniCoursesApp.Models
                 .HasOne(p => p.SecondTeacher)
                 .WithMany(p => p.CoursesSecond)
                 .HasForeignKey(p => p.SecondTeacherId);
-
+            base.OnModelCreating(builder);
         }
     }
 }

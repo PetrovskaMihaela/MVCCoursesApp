@@ -1,0 +1,40 @@
+﻿@model IEnumerable<UniCoursesApp.Areas.Identity.Data.UniCoursesAppUser>
+
+<h1> Корисници </h1>
+<div class="form-group">
+    <a asp-action="Create" class="btn btn-primary">Креирај нов корисник</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Кориснички код</th>
+            <th>Корисничко име</th>
+            <th>Емаил</th>
+            <th>Ажурирај</th>
+            <th>Избриши</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (UniCoursesApp.Areas.Identity.Data.UniCoursesAppUser user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-action="Update" asp-route-id="@user.Id">
+                        Ажурирај
+                    </a>
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Избриши
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
